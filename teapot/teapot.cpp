@@ -17,6 +17,8 @@
 				"s:\tSmooth/Flat shade\n"\
 				"b:\tBenchMark Mode ON/OFF\n"\
 				"n:\tDisplay Rendered Frame Num ON/OFF\n"\
+				"c:\tDisplay Frame Count ON/OFF\n"\
+				"a:\tReset Frame Count\n"\
 				"z:\tScale Up\n"\
 				"Z:\tScale Down\n"\
 				"SPACE:\tFullscreen ON/OFF\n"\
@@ -53,6 +55,7 @@ GLint object = TEAPOT;
 GLboolean  stereo       = false;
 GLboolean  showFPS      = false;
 GLboolean  showFrameNum = true;
+GLboolean  enableCount  = true;
 GLboolean  showinfo     = false;
 GLboolean  fullscreen   = false;
 
@@ -83,6 +86,8 @@ GLfloat shininess[] = { 128.0 };
 
 int bBenchMark = false;
 GLdouble theta = 0.0;
+
+int frameNum = 0;
 
 
 void printCopyright()
@@ -230,10 +235,10 @@ void drawFPS()
 
 void drawFrameNum()
 {
-	static int frameNum         = 0;
+
 	char       frameNumStr[128];
 
-	frameNum++;
+	if (enableCount) frameNum++;
 	sprintf(frameNumStr, "%d frames", frameNum);
 
 	if (showFrameNum){
@@ -470,6 +475,12 @@ keyboard(unsigned char key, int x, int y)
 			break;
 		case 'n':
 			showFrameNum = !showFrameNum;
+			break;
+		case 'c':
+			enableCount = !enableCount;
+			break;
+		case 'a':
+			frameNum = 0;
 			break;
 		case 'z':
 			if (scale < 0.5f) {
